@@ -1,0 +1,19 @@
+{
+  "name": "food-delivery-app-backend",
+  "version": "1.0.0",
+  "description": "This is a backend Api for a Food Delivery app that allows users to order food from their favorite restaurants.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.1.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.2",
+    "nodemon": "^2.0.22"
+  }
+}
