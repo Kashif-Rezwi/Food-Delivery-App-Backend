@@ -1,9 +1,14 @@
 const express = require("express");
 const { connection } = require("./config/db");
+const cors = require("cors");
 
 const app = express();
+app.use(express.json());
+app.use(cors());
 
-app.use(express.json);
+app.get("/", (req, res) => {
+  res.send("Wellcome to the Food Api Database.");
+});
 
 app.listen(process.env.PORT, async () => {
   try {
