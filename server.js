@@ -2,6 +2,7 @@ const express = require("express");
 const { connection } = require("./config/db");
 const cors = require("cors");
 const { userRouter } = require("./routes/user.routes");
+const { restaurantRouter } = require("./routes/restaurant.routes");
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", userRouter);
+app.use("/restaurants", restaurantRouter);
 
 app.listen(process.env.PORT, async () => {
   try {
