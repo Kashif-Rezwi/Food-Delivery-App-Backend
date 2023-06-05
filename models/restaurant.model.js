@@ -1,28 +1,5 @@
 const { mongoose } = require("mongoose");
-
-const restaurantMenu = mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    image: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    versionKey: false,
-  }
-);
+const { menuSchema } = require("./menu.schema");
 
 const restaurantSchema = mongoose.Schema(
   {
@@ -52,7 +29,7 @@ const restaurantSchema = mongoose.Schema(
         required: true,
       },
     },
-    menu: { type: [restaurantMenu], default: [] },
+    menu: { type: [menuSchema], default: [] },
   },
   {
     versionKey: false,
