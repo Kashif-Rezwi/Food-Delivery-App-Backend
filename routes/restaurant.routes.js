@@ -65,4 +65,34 @@ restaurantRouter.post("/createRestaurant", async (req, res) => {
   }
 });
 
+// getting menu of a specific restaurant
+restaurantRouter.get("/:id/menu", async (req, res) => {
+  const restaurantId = req.params.id;
+
+  try {
+    const restaurantExists = await RestaurantModel.findById(restaurantId);
+    if (restaurantExists && restaurantExists.menu.length > 0) {
+      return res.send({ menu: restaurantExists.menu });
+    } else {
+      return res.send({ msg: "Menu is empty!", menu: restaurantExists.menu });
+    }
+  } catch (err) {
+    res.send({ msg: `No restaurant found by this _id ${restaurantId}!` });
+  }
+});
+
+restaurantRouter.get("/:restId/menu/:menuId", async (req, res) => {
+  const { restId, menuId } = req.params;
+
+  try {
+    const restaurantExists = await RestaurantModel.findById(restId);
+    if (restaurantExists) {
+      // const menuExists = await restaurantExists.menu.find({ _id: menuId });
+      // res.send(restaurantExists);
+    }
+  } catch (err) {
+    res.send({ msg: `No restaurant found by this _id ${restId}!` });
+  }
+});
+
 module.exports = { restaurantRouter };
