@@ -1,7 +1,5 @@
 const express = require("express");
 const { UserModel } = require("../models/user.model");
-const bcrypt = require("bcrypt");
-const { schemaValidater } = require("../utils/schemaValidater");
 
 const userRouter = express.Router();
 
@@ -32,59 +30,21 @@ userRouter.get("/:id", async (req, res) => {
   }
 });
 
-// creating new user
-userRouter.post("/register", async (req, res) => {
-  const payload = req.body;
-  const { email, password, ...rest } = payload;
+userRouter.get("/:id/orders", async (req, res) => {
+  const userId = req.params.id;
 
   try {
-    let userExists = await UserModel.find({ email: email });
-
-    if (userExists.length > 0) {
-      return res.send({ msg: "User already exists!" });
-    }
-
-    bcrypt.hash(password, 5, async (err, hash) => {
-      if (err) {
-        return res.send({ error: err.message });
-      }
-
-      const newUser = new UserModel(payload);
-
-      // Validate the payload against the schema
-      const validationError = newUser.validateSync();
-      if (validationError) {
-        const errorMessage = schemaValidater(validationError);
-        return res.send(errorMessage);
-      }
-
-      await newUser.save();
-      res.send({ msg: "User registered successfully." });
-    });
-  } catch (err) {
-    res.send({ error: err.message });
-  }
-});
-
-// user login
-userRouter.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    let userExists = await UserModel.find({ email: email });
-
-    if (userExists.length > 0) {
-      bcrypt.compare(password, userExists[0].password, async (err, result) => {
-        if (result) {
-          const token = "this is a token.";
-          res.send({ msg: "User login successfully.", token: token });
+    UserModel.findById(userId)
+      .then((user) => {
+        if (user.orders.length > 0) {
+          return res.send({ orders: user.orders });
         } else {
-          return res.send({ msg: "Wrong Credentials!" });
+          return res.send({ msg: "Orders is empty!", Orders: user.orders });
         }
+      })
+      .catch((err) => {
+        res.send({ msg: `User not found by this _id ${userId}!` });
       });
-    } else {
-      res.send({ msg: "User not exists!" });
-    }
   } catch (err) {
     res.send({ error: err.message });
   }
