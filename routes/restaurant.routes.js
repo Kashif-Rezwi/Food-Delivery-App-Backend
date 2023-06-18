@@ -4,7 +4,7 @@ const { schemaValidater } = require("../utils/schemaValidater");
 
 const restaurantRouter = express.Router();
 
-// getting all restaurants
+// Getting all restaurants
 restaurantRouter.get("/", async (req, res) => {
   try {
     let restaurants = await RestaurantModel.find();
@@ -19,7 +19,7 @@ restaurantRouter.get("/", async (req, res) => {
   }
 });
 
-// getting restaurant by its _id
+// Getting restaurant by its _id
 restaurantRouter.get("/:id", async (req, res) => {
   const restaurantId = req.params.id;
 
@@ -34,7 +34,7 @@ restaurantRouter.get("/:id", async (req, res) => {
   }
 });
 
-// creating a restaurant
+// Creating a restaurant
 restaurantRouter.post("/create-restaurant", async (req, res) => {
   const payload = req.body;
   const { name, ...rest } = payload;
@@ -65,7 +65,7 @@ restaurantRouter.post("/create-restaurant", async (req, res) => {
   }
 });
 
-// getting menu of a specific restaurant
+// Getting menu of a specific restaurant
 restaurantRouter.get("/:id/menu", async (req, res) => {
   const restaurantId = req.params.id;
 
@@ -86,6 +86,7 @@ restaurantRouter.get("/:id/menu", async (req, res) => {
   }
 });
 
+// Getting a specific menu of a specific restaurant by its restId and menuId
 restaurantRouter.get("/:restId/menu/:menuId", async (req, res) => {
   const { restId, menuId } = req.params;
 
